@@ -1,5 +1,6 @@
 <template>
   <div class="customers container">
+      <Alert v-if="alert" v-bind:message="alert"></Alert>
       <h1 class="page-header">用户管理系统</h1>
       <table class="table table-striped">
           <thead>
@@ -23,25 +24,36 @@
 </template>
 
 <script>
+import Alert from "./Alert";
 export default {
   name: 'customers',
   data () {
     return {
-      customers:[]
+      customers:[],
+      alert:""
     }
   },
   methods:{
-      fetchCustomers(){
-          this.$http.get('http://localhost:3004/users')
-          .then(function(response){
+    fetchCustomers(){
+        this.$http.get('http://localhost:3004/users')
+        .then(function(response){
             //   console.log(response);
                 this.customers = response.body;
-          })
+        })
           
-      }
+    }
   },
   created(){
-      this.fetchCustomers();
+    if(this.$route.query.alert){
+        this.alert = this.$route.query.alert;
+    }
+    this.fetchCustomers();
+  },
+  updated(){
+    this.fetchCustomers();
+  },
+  components:{
+    Alert
   }
 }
 </script>
