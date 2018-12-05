@@ -2,16 +2,21 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import VueRouter from "vue-router";
-import VueResource from "vue-resource";
+// import VueResource from "vue-resource";
+import axios from "axios";
 import App from './App'
 import Customers from "./components/Customers";
 import About from "./components/About";
 import Add  from "./components/Add";
-
+import CustomersDetails from "./components/CustomerDetails";
+import Edit from "./components/Edit";
 Vue.config.productionTip = false
 
 Vue.use(VueRouter)
-Vue.use(VueResource)
+// Vue.use(VueResource)
+
+Vue.prototype.$http = axios
+
 // 设置路由
 const router = new VueRouter({
   mode: 'history',
@@ -19,7 +24,9 @@ const router = new VueRouter({
   routes: [
     { path: "/", component: Customers },
     { path: "/about", component: About },
-    { path: "/add", component: Add }
+    { path: "/add", component: Add },
+    { path: "/customer/:id", component: CustomersDetails },
+    { path: "/edit/:id", component: Edit },
   ]
 })
 

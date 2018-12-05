@@ -1,21 +1,19 @@
 <template>
   <div class="about container">
-   about
+    <h1 class="page-header">大家好！</h1>
+    <p>大家好，请与我联系！</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'about',
-  data () {
-    return {
-      
-    }
+  name: "about",
+  data() {
+    return {};
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>

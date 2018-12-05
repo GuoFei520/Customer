@@ -1,5 +1,6 @@
 <template>
   <div class="add container">
+   <Alert v-if="alert" v-bind:message="alert"></Alert>
    <h1 class="page-header">添加用户</h1>
    <form v-on:submit="addCustomer">
        <div class="well">
@@ -40,17 +41,20 @@
 </template>
 
 <script>
+import Alert from "./Alert";
 export default {
   name: 'add',
   data () {
     return {
-      customer:{}
+      customer:{},
+      alert:""
     }
   },
   methods:{
     addCustomer(e) {
         if(!this.customer.name || !this.customer.phone || !this.customer.email){
-            console.log('请添加对应的信息！')
+            // console.log('请添加对应的信息！')
+            this.alert="请添加对应的信息!"
         }else {
             let newCustomer = {
                 name:this.customer.name,
@@ -62,13 +66,16 @@ export default {
                 profile:this.customer.profile
             }
             this.$http.post("http://localhost:3004/users",newCustomer)
-                .then(function(response){
+                .then((response)=>{
                     this.$router.push({path:"/",query:{alert:"用户信息添加成功!"}});
                 })
             e.preventDefault();
         }
         e.preventDefault();
     }
+  },
+  components:{
+    Alert 
   }
 }
 </script>

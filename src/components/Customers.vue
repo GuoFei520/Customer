@@ -2,6 +2,8 @@
   <div class="customers container">
       <Alert v-if="alert" v-bind:message="alert"></Alert>
       <h1 class="page-header">用户管理系统</h1>
+        <input type="text" class="form-control" placeholder="搜索" v-model="filterInput">
+        <br>
       <table class="table table-striped">
           <thead>
               <tr>
@@ -12,11 +14,11 @@
               </tr>
           </thead>
           <tbody>
-              <tr v-for="customer in customers">
+              <tr v-for="customer in filterBy(customers,filterInput)">
                   <td>{{customer.name}}</td>
                   <td>{{customer.phone}}</td>
                   <td>{{customer.email}}</td>
-                  <td></td>
+                  <td><router-link  class="btn btn-default" v-bind:to="'/customer/' + customer.id">详情</router-link></td>
               </tr>
           </tbody>
       </table>
@@ -30,17 +32,22 @@ export default {
   data () {
     return {
       customers:[],
-      alert:""
+      alert:"",
+      filterInput:""
     }
   },
   methods:{
     fetchCustomers(){
         this.$http.get('http://localhost:3004/users')
-        .then(function(response){
-            //   console.log(response);
-                this.customers = response.body;
+        .then((response)=>{
+            // console.log(response);
+            this.customers = response.data;
+        })   
+    },
+    filterBy(customers,value){
+        return customers.filter(function(customer){
+            return customer.name.match(value);
         })
-          
     }
   },
   created(){
